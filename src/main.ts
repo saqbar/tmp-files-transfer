@@ -16,7 +16,6 @@ async function bootstrap() {
   SwaggerModule.setup('swg', app, documentFactory);
 
   await app.listen(process.env.PORT || 3000);
-  console.log(process.env.PORT);
 
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
