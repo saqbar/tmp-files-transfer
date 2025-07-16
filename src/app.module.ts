@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { JwtModule } from '@nestjs/jwt';
+import * as process from 'process';
 
 @Module({
   imports: [
@@ -18,7 +20,14 @@ import { UsersModule } from './users/users.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: Boolean(process.env.SYNCHRONIZE),
     }),
-    UsersModule
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: process.env.ENVIRONMENT == 'development' ? '8h' : '2h',
+      },
+    }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

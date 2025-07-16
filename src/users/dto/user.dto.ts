@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
@@ -17,6 +17,28 @@ export class CreateUserDto {
   @Length(5, 64)
   @ApiProperty({ example: '123456', description: 'password' })
   readonly password: string;
+}
+
+export class LoginUserDto {
+  @IsString()
+  @ApiProperty({ example: 'login', description: 'login' })
+  readonly login: string;
+
+  @IsString()
+  @ApiProperty({ example: '123456', description: 'password' })
+  readonly password: string;
+}
+
+export class ChangePasswordDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ example: '123456', description: 'password' })
+  readonly password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ example: '123456', description: 'password' })
+  readonly newPassword: string;
 }
 
 function sanitizeInput(input: string): string {
